@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<WebCRUD_PIM_VIII.Models.Pessoa>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index de Pessoas cadastradas";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table col-md-10">
     <thead>
         <tr>
             <th>

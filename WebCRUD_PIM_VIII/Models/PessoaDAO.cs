@@ -528,6 +528,35 @@ namespace WebCRUD_PIM_VIII.Models
             return result;
         }
 
+        public static long ObterCPF(int id)
+        {
+            long cpf = 0;
+
+            try
+            {
+                MySqlCommand cmd = PrepararComando($"SELECT * FROM Pessoa WHERE Id = {id}");
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        cpf = reader.GetInt64(2);
+                    }
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Connection.Close();
+            }
+            return cpf;
+        }
+
         private static MySqlCommand PrepararComando(string sqlText)
         {
             Connection = new MySqlConnection(src);

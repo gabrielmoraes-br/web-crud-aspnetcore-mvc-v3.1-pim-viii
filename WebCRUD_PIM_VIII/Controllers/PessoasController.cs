@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using WebCRUD_PIM_VIII.Data;
 using WebCRUD_PIM_VIII.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebCRUD_PIM_VIII.Controllers
 {
@@ -33,12 +35,14 @@ namespace WebCRUD_PIM_VIII.Controllers
                 return NotFound();
             }
 
-            var pessoa = await _context.Pessoa
+            var obj = await _context.Pessoa
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
+            if (obj == null)
             {
                 return NotFound();
             }
+
+            Pessoa pessoa = PessoaDAO.Consulte(obj.CPF);
 
             return View(pessoa);
         }
@@ -49,20 +53,12 @@ namespace WebCRUD_PIM_VIII.Controllers
             return View();
         }
 
-        // POST: Pessoas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,CPF")] Pessoa pessoa)
+        public IActionResult Create(Pessoa pessoa)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(pessoa);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(pessoa);
+            PessoaDAO.Insira(pessoa);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Pessoas/Edit/5
@@ -73,11 +69,14 @@ namespace WebCRUD_PIM_VIII.Controllers
                 return NotFound();
             }
 
-            var pessoa = await _context.Pessoa.FindAsync(id);
-            if (pessoa == null)
+            var obj = await _context.Pessoa.FindAsync(id);
+            if (obj == null)
             {
                 return NotFound();
             }
+
+            Pessoa pessoa = PessoaDAO.Consulte(obj.CPF);
+
             return View(pessoa);
         }
 
@@ -86,7 +85,7 @@ namespace WebCRUD_PIM_VIII.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF")] Pessoa pessoa)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF,Endereco,Telefones")] Pessoa pessoa)
         {
             if (id != pessoa.Id)
             {
@@ -97,8 +96,14 @@ namespace WebCRUD_PIM_VIII.Controllers
             {
                 try
                 {
-                    _context.Update(pessoa);
-                    await _context.SaveChangesAsync();
+                    Pessoa obj = PessoaDAO.Consulte(PessoaDAO.ObterCPF(pessoa.Id));
+                    pessoa.Endereco.Id = obj.Endereco.Id;
+                    pessoa.Telefones[0].Id = obj.Telefones[0].Id;
+                    pessoa.Telefones[1].Id = obj.Telefones[1].Id;
+                    pessoa.Telefones[0].TipoTelefone.Id = obj.Telefones[0].TipoTelefone.Id;
+                    pessoa.Telefones[1].TipoTelefone.Id = obj.Telefones[1].TipoTelefone.Id;
+
+                    PessoaDAO.Altere(pessoa);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,8 +145,7 @@ namespace WebCRUD_PIM_VIII.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pessoa = await _context.Pessoa.FindAsync(id);
-            _context.Pessoa.Remove(pessoa);
-            await _context.SaveChangesAsync();
+            PessoaDAO.Exclua(PessoaDAO.Consulte(pessoa.CPF));
             return RedirectToAction(nameof(Index));
         }
 

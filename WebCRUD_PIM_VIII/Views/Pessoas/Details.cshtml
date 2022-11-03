@@ -9,20 +9,136 @@
 <div>
     <h4>Pessoa</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CPF)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CPF)
-        </dd>
-    </dl>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+        </div>
+        <div class="form-group">
+            <dt>
+                @Html.DisplayNameFor(model => model.CPF)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CPF)
+            </dd>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco.Logradouro)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco.Logradouro)
+            </dd>
+        </div>
+        <div class="form-group">
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco.Numero)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco.Numero)
+            </dd>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco.Bairro)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco.Bairro)
+            </dd>
+        </div>
+        <div class="form-group">
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco.Cep)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco.Cep)
+            </dd>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco.Cidade)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco.Cidade)
+            </dd>
+        </div>
+        <div class="form-group">
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco.Estado)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco.Estado)
+            </dd>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefones[0].Numero)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefones[0].Numero)
+            </dd>
+        </div>
+        <div class="form-group col-sm-2">
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefones[0].DDD)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefones[0].DDD)
+            </dd>
+        </div>
+        <div class="form-group">
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefones[0].TipoTelefone.Tipo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefones[0].TipoTelefone.Tipo)
+            </dd>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefones[1].Numero)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefones[1].Numero)
+            </dd>
+        </div>
+        <div class="form-group col-sm-2">
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefones[1].DDD)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefones[1].DDD)
+            </dd>
+        </div>
+        <div class="form-group">
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefones[1].TipoTelefone.Tipo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefones[1].TipoTelefone.Tipo)
+            </dd>
+        </div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
