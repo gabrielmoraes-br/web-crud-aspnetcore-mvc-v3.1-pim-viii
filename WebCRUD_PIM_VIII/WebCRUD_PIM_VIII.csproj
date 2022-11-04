@@ -18,4 +18,8 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\author.jpg" />
+  </ItemGroup>
+
 </Project>

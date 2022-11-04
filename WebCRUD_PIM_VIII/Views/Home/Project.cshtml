@@ -1,7 +1,36 @@
-﻿
-@{
-    ViewData["Title"] = "Projeto";
+﻿@{
+    ViewData["Title"] = "O Projeto";
 }
-
 <h1>@ViewData["Title"]</h1>
 
+<p style="margin-top: 30px"><font size="5">Aplicação ASP.NET MVC para CRUD em Banco de Dados MySQL.</font></p>
+
+
+<div class="row container">
+    <div>
+        <img src="~/images/diagrama-classes.jpg" height="510" width="690"/>
+    </div>
+    <div>
+        <div>
+            <p style="margin-left: 10px"><font size="4">Fonte: UNIP - Diagrama de classes.</font></p>
+        </div>
+        <div style="margin-top: 40px">
+            <p><font size="5">O projeto consiste de um CRUD que utiliza uma classe DAO para a</font></p>
+            <p><font size="5">manipulação total das funções nas tabelas do banco de dados SQL:</font></p>
+        </div>
+    </div>
+    <div>
+        <img src="~/images/diagrama-db.jpg" height="280" width="680"/>
+    </div>
+    <div>
+        <div>
+            <p style="margin-left: 10px"><font size="4">Fonte: UNIP - Diagrama Entidade-Relacionamento do Banco de Dados.</font></p>
+        </div>
+        <div style="margin-top: 40px">
+            <p><font size="5">O objetivo foi construir este mecanismo de acesso para a execução</font></p>
+            <p><font size="5">de cadastros de pessoas usando um formulário completo de dados.</font></p>
+        </div>
+    </div>
+</div>
+
+<p style="margin-top: 20px"><font size="3"><a asp-action="">Voltar para a página inicial</a>.</font></p>
