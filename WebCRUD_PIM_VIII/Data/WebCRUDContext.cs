@@ -15,11 +15,5 @@ namespace WebCRUD_PIM_VIII.Data
         }
 
         public DbSet<Pessoa> Pessoa { get; set; }
-
-        public DbSet<Endereco> Endereco { get; set; }
-
-        public DbSet<Telefone> Telefone { get; set; }
-
-        public DbSet<TipoTelefone> TipoTelefone { get; set; }
     }
 }
