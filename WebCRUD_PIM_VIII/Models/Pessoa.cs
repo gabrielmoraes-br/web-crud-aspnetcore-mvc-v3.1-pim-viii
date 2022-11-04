@@ -8,9 +8,11 @@ namespace WebCRUD_PIM_VIII.Models
         public int Id { get; set; }
 
         [Display(Name = "Nome completo")]
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "O nome completo precisa ter entre 3 e 60 caracteres.")]
         [Required]
         public string Nome { get; set; }
 
+        [RegularExpression(@"\d{11}", ErrorMessage = "Precisa ter 11 dígitos.")]
         [Required]
         public long CPF { get; set; }
 

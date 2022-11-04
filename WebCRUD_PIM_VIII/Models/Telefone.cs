@@ -9,6 +9,8 @@ namespace WebCRUD_PIM_VIII.Models
 
         [Display(Name = "Número")]
         public int Numero { get; set; }
+
+        [RegularExpression(@"\d{2}", ErrorMessage = "Precisa ter 2 dígitos.")]
         public int DDD { get; set; }
 
         [Required]

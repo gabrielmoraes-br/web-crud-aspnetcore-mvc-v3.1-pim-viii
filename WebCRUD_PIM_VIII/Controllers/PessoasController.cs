@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MySql.Data.MySqlClient;
 using WebCRUD_PIM_VIII.Data;
 using WebCRUD_PIM_VIII.Models;
@@ -32,19 +34,32 @@ namespace WebCRUD_PIM_VIII.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
 
             var obj = await _context.Pessoa
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
 
             Pessoa pessoa = PessoaDAO.Consulte(obj.CPF);
 
             return View(pessoa);
+        }
+
+        // GET: Pessoas/Details/5
+        public IActionResult Search(long cpf)
+        {
+            Pessoa pessoa = PessoaDAO.Consulte(cpf);
+
+            if (pessoa.Id == 0)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
+            }
+
+            return View("Details", pessoa);
         }
 
         // GET: Pessoas/Create
@@ -66,13 +81,13 @@ namespace WebCRUD_PIM_VIII.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
 
             var obj = await _context.Pessoa.FindAsync(id);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
 
             Pessoa pessoa = PessoaDAO.Consulte(obj.CPF);
@@ -89,27 +104,20 @@ namespace WebCRUD_PIM_VIII.Controllers
         {
             if (id != pessoa.Id)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Pessoa obj = PessoaDAO.Consulte(PessoaDAO.ObterCPF(pessoa.Id));
-                    pessoa.Endereco.Id = obj.Endereco.Id;
-                    pessoa.Telefones[0].Id = obj.Telefones[0].Id;
-                    pessoa.Telefones[1].Id = obj.Telefones[1].Id;
-                    pessoa.Telefones[0].TipoTelefone.Id = obj.Telefones[0].TipoTelefone.Id;
-                    pessoa.Telefones[1].TipoTelefone.Id = obj.Telefones[1].TipoTelefone.Id;
-
                     PessoaDAO.Altere(pessoa);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!PessoaExists(pessoa.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
                     }
                     else
                     {
@@ -126,15 +134,17 @@ namespace WebCRUD_PIM_VIII.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
 
-            var pessoa = await _context.Pessoa
+            var obj = await _context.Pessoa
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
+            if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
             }
+
+            Pessoa pessoa = PessoaDAO.Consulte(obj.CPF);
 
             return View(pessoa);
         }
@@ -152,6 +162,16 @@ namespace WebCRUD_PIM_VIII.Controllers
         private bool PessoaExists(int id)
         {
             return _context.Pessoa.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel 
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                Message = message
+            };
+            return View(viewModel);
         }
     }
 }

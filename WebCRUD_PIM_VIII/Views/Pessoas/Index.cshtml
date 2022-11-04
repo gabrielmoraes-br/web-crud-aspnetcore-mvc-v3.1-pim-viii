@@ -6,10 +6,29 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table col-md-10">
+    <form asp-action="Search">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row" style="margin-top: 25px" >
+                <div class="form-group">
+                    <p>
+                        <a style="margin-left: 8px" class="btn btn-primary" asp-action="Create">Novo Cadastro</a>
+                    </p>
+                </div>
+                    <div class="form-group col-sm-2" style="margin-left: 250px">
+                        <input type="long" name="cpf" class="form-control" placeholder="CPF" minlength="11" maxlength="11" required oninvalid="this.setCustomValidity('O CPF precisa ter 11 dígitos.')" 
+                            onchange="try{setCustomValidity('')}catch(e){}"/>
+                    </div>
+                
+                
+                <div class="form-group col-sm-2" style="margin-left: 15px">
+                    <p>
+                        <input type="submit" value="Consultar Pessoa" class="btn btn-primary"/>
+                    </p>
+                </div>
+            </div>
+    </form>
+
+<table class="table table-striped table-hover col-md-10">
     <thead>
         <tr>
             <th>
@@ -31,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.CPF)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
             </td>
         </tr>
 }

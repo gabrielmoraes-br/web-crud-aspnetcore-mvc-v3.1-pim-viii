@@ -21,7 +21,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="CPF" class="control-label"></label>
-                    <input asp-for="CPF" class="form-control" />
+                    <input asp-for="CPF" class="form-control" minlength="11" maxlength="11" required 
+                        oninvalid="this.setCustomValidity('O CPF precisa ter 11 dígitos.')" onchange="try{setCustomValidity('')}catch(e){}"/>
                     <span asp-validation-for="CPF" class="text-danger"></span>
                 </div>
             </div>
@@ -29,7 +30,7 @@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label asp-for="Endereco.Logradouro" class="control-label"></label>
-                    <input asp-for="Endereco.Logradouro" class="form-control" placeholder="Endereço"/>
+                    <input asp-for="Endereco.Logradouro" class="form-control" placeholder="Endereço" required/>
                     <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -42,7 +43,7 @@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label asp-for="Endereco.Bairro" class="control-label"></label>
-                    <input asp-for="Endereco.Bairro" class="form-control" />
+                    <input asp-for="Endereco.Bairro" class="form-control" required/>
                     <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -55,12 +56,12 @@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label asp-for="Endereco.Cidade" class="control-label"></label>
-                    <input asp-for="Endereco.Cidade" class="form-control" />
+                    <input asp-for="Endereco.Cidade" class="form-control" required/>
                     <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Endereco.Estado" class="control-label"></label>
-                    <input asp-for="Endereco.Estado" class="form-control" />
+                    <input asp-for="Endereco.Estado" class="form-control" required/>
                     <span asp-validation-for="Endereco.Estado" class="text-danger"></span>
                 </div>
             </div>
@@ -68,7 +69,7 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label asp-for="Telefones[0].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[0].Numero" class="form-control" placeholder="Telefone"/>
+                    <input asp-for="Telefones[0].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
                     <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -78,7 +79,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[0].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[0].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?"/>
+                    <input asp-for="Telefones[0].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
                     <span asp-validation-for="Telefones[0].TipoTelefone.Tipo" class="text-danger" placeholder="Fixo ou Móvel?"></span>
                 </div>
             </div>
@@ -86,7 +87,7 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label asp-for="Telefones[1].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone"/>
+                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
                     <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -96,20 +97,17 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[1].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?"/>
+                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
                     <span asp-validation-for="Telefones[1].TipoTelefone.Tipo" class="text-danger"></span>
                 </div>
             </div>
  
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Cadastrar" class="btn btn-success"/> | 
+                <a asp-action="Index">Retornar para a lista</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

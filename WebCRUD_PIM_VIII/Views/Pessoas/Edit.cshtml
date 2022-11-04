@@ -1,10 +1,10 @@
 ﻿@model WebCRUD_PIM_VIII.Models.Pessoa
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
+<h1>@ViewData["Title"]</h1>
 
 <h4>Pessoa</h4>
 <hr />
@@ -12,7 +12,12 @@
     <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <!--<input type="hidden" asp-for="Id" />-->
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Endereco.Id" />
+            <input type="hidden" asp-for="Telefones[0].Id" />
+            <input type="hidden" asp-for="Telefones[0].TipoTelefone.Id" />
+            <input type="hidden" asp-for="Telefones[1].Id" />
+            <input type="hidden" asp-for="Telefones[1].TipoTelefone.Id" />
 
             <div class="form-row">
                 <div class="form-group col-md-8">
@@ -22,7 +27,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="CPF" class="control-label"></label>
-                    <input asp-for="CPF" class="form-control" />
+                    <input asp-for="CPF" class="form-control"/>
                     <span asp-validation-for="CPF" class="text-danger"></span>
                 </div>
             </div>
@@ -30,12 +35,12 @@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label asp-for="Endereco.Logradouro" class="control-label"></label>
-                    <input asp-for="Endereco.Logradouro" class="form-control" placeholder="Endereço"/>
+                    <input asp-for="Endereco.Logradouro" class="form-control" placeholder="Endereço" required/>
                     <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Endereco.Numero" class="control-label"></label>
-                    <input asp-for="Endereco.Numero" class="form-control" />
+                    <input asp-for="Endereco.Numero" class="form-control" required/>
                     <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
                 </div>
             </div>
@@ -43,12 +48,12 @@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label asp-for="Endereco.Bairro" class="control-label"></label>
-                    <input asp-for="Endereco.Bairro" class="form-control" />
+                    <input asp-for="Endereco.Bairro" class="form-control" required/>
                     <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Endereco.Cep" class="control-label"></label>
-                    <input asp-for="Endereco.Cep" class="form-control" />
+                    <input asp-for="Endereco.Cep" class="form-control" required/>
                     <span asp-validation-for="Endereco.Cep" class="text-danger"></span>
                 </div>
             </div>
@@ -56,12 +61,12 @@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label asp-for="Endereco.Cidade" class="control-label"></label>
-                    <input asp-for="Endereco.Cidade" class="form-control" />
+                    <input asp-for="Endereco.Cidade" class="form-control" required/>
                     <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Endereco.Estado" class="control-label"></label>
-                    <input asp-for="Endereco.Estado" class="form-control" />
+                    <input asp-for="Endereco.Estado" class="form-control" required/>
                     <span asp-validation-for="Endereco.Estado" class="text-danger"></span>
                 </div>
             </div>
@@ -69,7 +74,7 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label asp-for="Telefones[0].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[0].Numero" class="form-control" placeholder="Telefone"/>
+                    <input asp-for="Telefones[0].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
                     <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -79,7 +84,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[0].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[0].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?"/>
+                    <input asp-for="Telefones[0].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
                     <span asp-validation-for="Telefones[0].TipoTelefone.Tipo" class="text-danger" placeholder="Fixo ou Móvel?"></span>
                 </div>
             </div>
@@ -87,7 +92,7 @@
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label asp-for="Telefones[1].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone"/>
+                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
                     <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
@@ -97,20 +102,17 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[1].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?"/>
+                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
                     <span asp-validation-for="Telefones[1].TipoTelefone.Tipo" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar alterações" class="btn btn-primary" /> | 
+                <a asp-action="Index">Retornar para a lista</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -23,7 +23,12 @@ namespace WebCRUD_PIM_VIII.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Author()
+        {
+            return View();
+        }
+
+        public IActionResult Project()
         {
             return View();
         }
