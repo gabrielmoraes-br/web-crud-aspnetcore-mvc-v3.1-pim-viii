@@ -1,22 +1,21 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using System.Security.Cryptography;
-using System.Data;
-using System.Threading;
+﻿using MySql.Data.MySqlClient;
+using System;
+using WebCRUD_PIM_VIII.Models;
 
-namespace WebCRUD_PIM_VIII.Models
+namespace WebCRUD_PIM_VIII.Data
 {
     public class PessoaDAO
     {
+        //Criação da conexão MySQL para acesso ao banco de dados.
         private static string src = "server=localhost;userid=developer;password=1234567;database=webcrud";
         private static MySqlConnection Connection;
 
+        /// ========================= MÉTODO DE INSERIR =========================
         public static bool Insira(Pessoa pessoa)
         {
             try
             {
-                GravarEndereco(pessoa); //A gravação de endereço preliminar garante a recuperação correta do id.
+                GravarEndereco(pessoa); //Grava o endereço da pessoa no banco de dados e garante o EnderecoId correto no método ObterId.
 
                 MySqlCommand cmd = PrepararComando("INSERT INTO Pessoa (Nome, CPF, EnderecoId) VALUES (@Nome,@CPF,@EnderecoId)");
 
@@ -33,7 +32,7 @@ namespace WebCRUD_PIM_VIII.Models
             }
             finally
             {
-                GravarTelefones(pessoa);
+                GravarTelefones(pessoa); //Grava os telefones da pessoa no banco de dados.
 
                 Connection.Close();
             }
@@ -46,8 +45,8 @@ namespace WebCRUD_PIM_VIII.Models
             //Objetos instanciados para iniciar a recuperação de dados do banco.
             Pessoa pessoa = new Pessoa();
             Endereco endereco = new Endereco();
-            Telefone[] vect = new Telefone[3]; //vetor provisório para instanciar os telefones.
-            int count = 0; //Este contador será usado para instanciar o vetor de telefones definito.
+            Telefone[] vect = new Telefone[2]; //vetor provisório para instanciar os dois telefones do formulário.
+            int count = 0; //Este contador será usado para instanciar o vetor de telefones definito no final.
 
             //========================= DADOS DA TABELA DE PESSOA =========================
 
@@ -125,7 +124,8 @@ namespace WebCRUD_PIM_VIII.Models
                     {
                         vect[i] = new Telefone { Id = reader.GetInt16(1) };
 
-                        //O contador armazenará os valores válidos, sem considerar espaços nulos no index.
+                        //O contador armazenará os valores válidos, sem considerar espaços nulos no index
+                        //(caso cadastre apenas 1 telefone).
                         count++; //Isso fará com que não aconteçam comandos SQL para espaços nulos.
                     }
                 }
@@ -167,7 +167,7 @@ namespace WebCRUD_PIM_VIII.Models
                     Connection.Close();
                 }
 
-                //PARTE 3: Recupera os tipos de telefones que foram cadastrados nestes ids de tipo.
+                //PARTE 3: Recupera os tipos de telefones que foram cadastrados nestes TipoTelefoneIds.
                 try
                 {
                     MySqlCommand cmd = PrepararComando($"SELECT * FROM Tipo_Telefone WHERE Id = {vect[i].TipoTelefone.Id}");
@@ -201,6 +201,7 @@ namespace WebCRUD_PIM_VIII.Models
                 telefones[i] = vect[i];
             }
 
+            //Atribui o endereço e os telefones recuperados para o novo objeto Pessoa.
             pessoa.Endereco = endereco;
             pessoa.Telefones = telefones;
 
@@ -210,7 +211,7 @@ namespace WebCRUD_PIM_VIII.Models
         /// ========================= MÉTODO DE ALTERAÇÃO =========================
         public static bool Altere(Pessoa pessoa)
         {
-            //Altera as informações básicas da pessoa, Nome e CPF.
+            //Altera as informações básicas da pessoa na tabela do banco de dados, Nome e CPF.
             try
             {
                 MySqlCommand cmd = PrepararComando($"UPDATE Pessoa SET Nome=@Nome, CPF=@CPF WHERE Id = {pessoa.Id}");
@@ -230,7 +231,7 @@ namespace WebCRUD_PIM_VIII.Models
                 Connection.Close();
             }
 
-            //Altera o endereço da pessoa.
+            //Altera o endereço completo da pessoa no banco de dados.
             try
             {
                 MySqlCommand cmd = PrepararComando($"UPDATE Endereco SET Logradouro=@Logradouro, Numero=@Numero, Cep=@Cep, Bairro=@Bairro, Cidade=@Cidade, Estado=@Estado WHERE Id = {pessoa.Endereco.Id}");
@@ -254,7 +255,7 @@ namespace WebCRUD_PIM_VIII.Models
                 Connection.Close();
             }
 
-            //Altera os telefones da pessoa.
+            //Altera os telefones da pessoa no banco de dados.
             for (int i = 0; i < pessoa.Telefones.Length; i++)
             {
                 try
@@ -276,7 +277,7 @@ namespace WebCRUD_PIM_VIII.Models
                     Connection.Close();
                 }
 
-                //Tipo de telefone.
+                //Altera os Tipos de telefones no banco de dados.
                 try
                 {
                     MySqlCommand cmd = PrepararComando($"UPDATE Tipo_Telefone SET Tipo=@Tipo WHERE Id = {pessoa.Telefones[i].TipoTelefone.Id}");
@@ -301,6 +302,8 @@ namespace WebCRUD_PIM_VIII.Models
         /// ========================= MÉTODO DE EXCLUSÃO =========================
         public static bool Exclua(Pessoa pessoa)
         {
+            //Exclusão dos números de telefone de acordo com o Id da Pessoa.
+            //Esta exclusão precisa acontecer antes da exclusão da Pessoa, devido associação na tabela.
             try
             {
                 MySqlCommand cmd = PrepararComando("DELETE FROM Telefone WHERE PessoaId = @PessoaId");
@@ -319,6 +322,7 @@ namespace WebCRUD_PIM_VIII.Models
                 Connection.Close();
             }
 
+            //Exclusão da Pessoa de acordo com seu Id.
             try
             {
                 MySqlCommand cmd = PrepararComando("DELETE FROM Pessoa WHERE Id = @PessoaId");
@@ -337,6 +341,7 @@ namespace WebCRUD_PIM_VIII.Models
                 Connection.Close();
             }
 
+            //Exclusão do endereço da Pessoa de acordo com seu Id.
             try
             {
                 MySqlCommand cmd = PrepararComando("DELETE FROM Endereco WHERE Id = @EnderecoId");
@@ -355,7 +360,7 @@ namespace WebCRUD_PIM_VIII.Models
                 Connection.Close();
             }
 
-            //Exclusão de telefones e associações.
+            //Exclusão de telefones e Pessoa da tabela associativa.
             try
             {
                 MySqlCommand cmd = PrepararComando("DELETE FROM Pessoa_Telefone WHERE Id_Pessoa = @PessoaId");
@@ -374,6 +379,7 @@ namespace WebCRUD_PIM_VIII.Models
                 Connection.Close();
             }
 
+            //Exclusão dos tipos de telefones que eram vinculados aos ids de telefones deletados.
             for (int i = 0; i < pessoa.Telefones.Length; i++)
             {
                 try
@@ -432,7 +438,8 @@ namespace WebCRUD_PIM_VIII.Models
         {
             for (int i = 0; i < pessoa.Telefones.Length; i++)
             {
-                //adiciona o tipo de telefone, gerando o id
+                //Adiciona os tipos dos telefones, gerando os ids de tipo.
+                //Precisa acontecer antes para que o telefone não fique com o campo tipo nulo.
                 try
                 {
                     MySqlCommand cmd = PrepararComando("INSERT INTO Tipo_Telefone (Tipo) VALUES (@Tipo)");
@@ -451,7 +458,7 @@ namespace WebCRUD_PIM_VIII.Models
                     Connection.Close();
                 }
 
-                //Adiciona o telefone com o id do tipo
+                //Adiciona os telefones com os ids de tipo previamente gerados.
                 try
                 {
                     MySqlCommand cmd = PrepararComando("INSERT INTO Telefone (Numero, DDD, TipoTelefoneId, PessoaId) VALUES (@Numero,@DDD,@TipoTelefoneId,@PessoaId)");
@@ -474,7 +481,7 @@ namespace WebCRUD_PIM_VIII.Models
                     Connection.Close();
                 }
 
-                //Adiciona os valores de id na tabela associativa Pessoa_Telefone.
+                //Adiciona os valores de ids na tabela associativa Pessoa_Telefone.
                 try
                 {
                     MySqlCommand cmd = PrepararComando("INSERT INTO Pessoa_Telefone (Id_Pessoa, Id_Telefone) VALUES (@Id_Pessoa, @Id_Telefone)");
@@ -499,6 +506,7 @@ namespace WebCRUD_PIM_VIII.Models
             return true;
         }
 
+        //Método que recupera o último id adicionado em uma tabela.
         protected static int ObterId(string table)
         {
             int result = 0;
@@ -528,6 +536,7 @@ namespace WebCRUD_PIM_VIII.Models
             return result;
         }
 
+        //Método que instancia a conexão MySQL e prepara o comando de texto.
         private static MySqlCommand PrepararComando(string sqlText)
         {
             Connection = new MySqlConnection(src);

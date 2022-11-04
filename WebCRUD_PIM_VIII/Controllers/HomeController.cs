@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCRUD_PIM_VIII.Models;
+using WebCRUD_PIM_VIII.Models.ViewModels;
 
 namespace WebCRUD_PIM_VIII.Controllers
 {

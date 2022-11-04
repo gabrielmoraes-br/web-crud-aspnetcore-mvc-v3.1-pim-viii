@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MySql.Data.MySqlClient;
 using WebCRUD_PIM_VIII.Data;
 using WebCRUD_PIM_VIII.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using WebCRUD_PIM_VIII.Models.ViewModels;
 
 namespace WebCRUD_PIM_VIII.Controllers
 {
@@ -23,13 +18,28 @@ namespace WebCRUD_PIM_VIII.Controllers
             _context = context;
         }
 
-        // GET: Pessoas
+        // GET: Pessoas/Index
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pessoa.ToListAsync());
         }
 
-        // GET: Pessoas/Details/5
+        // GET: Pessoas/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Pessoas/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Pessoa pessoa)
+        {
+            PessoaDAO.Insira(pessoa);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Pessoas/Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,34 +59,7 @@ namespace WebCRUD_PIM_VIII.Controllers
             return View(pessoa);
         }
 
-        // GET: Pessoas/Details/5
-        public IActionResult Search(long cpf)
-        {
-            Pessoa pessoa = PessoaDAO.Consulte(cpf);
-
-            if (pessoa.Id == 0)
-            {
-                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
-            }
-
-            return View("Details", pessoa);
-        }
-
-        // GET: Pessoas/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Pessoa pessoa)
-        {
-            PessoaDAO.Insira(pessoa);
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Pessoas/Edit/5
+        // GET: Pessoas/Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,9 +78,7 @@ namespace WebCRUD_PIM_VIII.Controllers
             return View(pessoa);
         }
 
-        // POST: Pessoas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Pessoas/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF,Endereco,Telefones")] Pessoa pessoa)
@@ -129,7 +110,7 @@ namespace WebCRUD_PIM_VIII.Controllers
             return View(pessoa);
         }
 
-        // GET: Pessoas/Delete/5
+        // GET: Pessoas/Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,7 +130,7 @@ namespace WebCRUD_PIM_VIII.Controllers
             return View(pessoa);
         }
 
-        // POST: Pessoas/Delete/5
+        // POST: Pessoas/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -164,6 +145,20 @@ namespace WebCRUD_PIM_VIII.Controllers
             return _context.Pessoa.Any(e => e.Id == id);
         }
 
+        // Método de busca que apresenta os datalhes do CPF pesquisado.
+        public IActionResult Search(long cpf)
+        {
+            Pessoa pessoa = PessoaDAO.Consulte(cpf);
+
+            if (pessoa.Id == 0)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Pessoa não encontrada." });
+            }
+
+            return View("Details", pessoa);
+        }
+
+        //Método que redireciona o usuário para página de erro.
         public IActionResult Error(string message)
         {
             var viewModel = new ErrorViewModel 

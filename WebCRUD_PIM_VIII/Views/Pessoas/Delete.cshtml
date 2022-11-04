@@ -86,59 +86,35 @@
         </div>
     </div>
 
+    @for (int i = 0; i < Model.Telefones.Length; i++)
+    {
     <div class="form-row">
         <div class="form-group col-md-2">
             <dt>
-                @Html.DisplayNameFor(model => model.Telefones[0].Numero)
+                @Html.DisplayNameFor(model => model.Telefones[i].Numero)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Telefones[0].Numero)
+                @Html.DisplayFor(model => model.Telefones[i].Numero)
             </dd>
         </div>
         <div class="form-group col-sm-2">
             <dt>
-                @Html.DisplayNameFor(model => model.Telefones[0].DDD)
+                @Html.DisplayNameFor(model => model.Telefones[i].DDD)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Telefones[0].DDD)
+                @Html.DisplayFor(model => model.Telefones[i].DDD)
             </dd>
         </div>
         <div class="form-group">
             <dt>
-                @Html.DisplayNameFor(model => model.Telefones[0].TipoTelefone.Tipo)
+                @Html.DisplayNameFor(model => model.Telefones[i].TipoTelefone.Tipo)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Telefones[0].TipoTelefone.Tipo)
+                @Html.DisplayFor(model => model.Telefones[i].TipoTelefone.Tipo)
             </dd>
         </div>
     </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-2">
-            <dt>
-                @Html.DisplayNameFor(model => model.Telefones[1].Numero)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Telefones[1].Numero)
-            </dd>
-        </div>
-        <div class="form-group col-sm-2">
-            <dt>
-                @Html.DisplayNameFor(model => model.Telefones[1].DDD)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Telefones[1].DDD)
-            </dd>
-        </div>
-        <div class="form-group">
-            <dt>
-                @Html.DisplayNameFor(model => model.Telefones[1].TipoTelefone.Tipo)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Telefones[1].TipoTelefone.Tipo)
-            </dd>
-        </div>
-    </div>
+    }
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />

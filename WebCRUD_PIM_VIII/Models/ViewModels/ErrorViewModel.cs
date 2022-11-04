@@ -1,6 +1,6 @@
 using System;
 
-namespace WebCRUD_PIM_VIII.Models
+namespace WebCRUD_PIM_VIII.Models.ViewModels
 {
     public class ErrorViewModel
     {

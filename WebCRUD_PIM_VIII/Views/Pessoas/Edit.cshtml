@@ -12,12 +12,14 @@
     <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- Hidden permite que todos estes ids não sejam perdidos durante a ação Editar -->
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Endereco.Id" />
-            <input type="hidden" asp-for="Telefones[0].Id" />
-            <input type="hidden" asp-for="Telefones[0].TipoTelefone.Id" />
-            <input type="hidden" asp-for="Telefones[1].Id" />
-            <input type="hidden" asp-for="Telefones[1].TipoTelefone.Id" />
+            @for (int i = 0; i < Model.Telefones.Length; i++)
+            {
+            <input type="hidden" asp-for="Telefones[i].Id" />
+            <input type="hidden" asp-for="Telefones[i].TipoTelefone.Id" />
+            }
 
             <div class="form-row">
                 <div class="form-group col-md-8">
@@ -71,42 +73,27 @@
                 </div>
             </div>
 
+            @for (int i = 0; i < Model.Telefones.Length; i++)
+            {
             <div class="form-row">
                 <div class="form-group col-md-5">
-                    <label asp-for="Telefones[0].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[0].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
-                    <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
+                    <label asp-for="Telefones[i].Numero" class="control-label"></label>
+                    <input asp-for="Telefones[i].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
+                    <span asp-validation-for="Telefones[i].Numero" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="Telefones[0].DDD" class="control-label"></label>
-                    <input asp-for="Telefones[0].DDD" class="form-control" />
-                    <span asp-validation-for="Telefones[0].DDD" class="text-danger"></span>
+                    <label asp-for="Telefones[i].DDD" class="control-label"></label>
+                    <input asp-for="Telefones[i].DDD" class="form-control" />
+                    <span asp-validation-for="Telefones[i].DDD" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="Telefones[0].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[0].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
-                    <span asp-validation-for="Telefones[0].TipoTelefone.Tipo" class="text-danger" placeholder="Fixo ou Móvel?"></span>
+                    <label asp-for="Telefones[i].TipoTelefone.Tipo" class="control-label"></label>
+                    <input asp-for="Telefones[i].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
+                    <span asp-validation-for="Telefones[i].TipoTelefone.Tipo" class="text-danger"></span>
                 </div>
             </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-5">
-                    <label asp-for="Telefones[1].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
-                    <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-3">
-                    <label asp-for="Telefones[1].DDD" class="control-label"></label>
-                    <input asp-for="Telefones[1].DDD" class="form-control" />
-                    <span asp-validation-for="Telefones[0].DDD" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-3">
-                    <label asp-for="Telefones[1].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
-                    <span asp-validation-for="Telefones[1].TipoTelefone.Tipo" class="text-danger"></span>
-                </div>
-            </div>
-
+            }
+            
             <div class="form-group">
                 <input type="submit" value="Salvar alterações" class="btn btn-primary" /> | 
                 <a asp-action="Index">Retornar para a lista</a>

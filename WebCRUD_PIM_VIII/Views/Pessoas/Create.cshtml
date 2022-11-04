@@ -74,31 +74,28 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[0].DDD" class="control-label"></label>
-                    <input asp-for="Telefones[0].DDD" class="form-control" />
+                    <input asp-for="Telefones[0].DDD" class="form-control" required/>
                     <span asp-validation-for="Telefones[0].DDD" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[0].TipoTelefone.Tipo" class="control-label"></label>
                     <input asp-for="Telefones[0].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
-                    <span asp-validation-for="Telefones[0].TipoTelefone.Tipo" class="text-danger" placeholder="Fixo ou Móvel?"></span>
+                    <span asp-validation-for="Telefones[0].TipoTelefone.Tipo" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label asp-for="Telefones[1].Numero" class="control-label"></label>
-                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone" minlength="8" required/>
-                    <span asp-validation-for="Telefones[0].Numero" class="text-danger"></span>
+                    <input asp-for="Telefones[1].Numero" class="form-control" placeholder="Telefone" minlength="8" option/>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[1].DDD" class="control-label"></label>
-                    <input asp-for="Telefones[1].DDD" class="form-control" />
-                    <span asp-validation-for="Telefones[0].DDD" class="text-danger"></span>
+                    <input asp-for="Telefones[1].DDD" class="form-control" option/>
                 </div>
                 <div class="form-group col-md-3">
                     <label asp-for="Telefones[1].TipoTelefone.Tipo" class="control-label"></label>
-                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?" required/>
-                    <span asp-validation-for="Telefones[1].TipoTelefone.Tipo" class="text-danger"></span>
+                    <input asp-for="Telefones[1].TipoTelefone.Tipo" class="form-control" placeholder="Fixo ou móvel ?"/>
                 </div>
             </div>
  

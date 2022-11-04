@@ -11,6 +11,8 @@ namespace WebCRUD_PIM_VIII.Models
 
         [Display(Name = "Número")]
         public int Numero { get; set; }
+
+        [RegularExpression(@"\d{8}", ErrorMessage = "Precisa ter 8 dígitos.")]
         public int Cep { get; set; }
 
         public string Bairro { get; set; }
