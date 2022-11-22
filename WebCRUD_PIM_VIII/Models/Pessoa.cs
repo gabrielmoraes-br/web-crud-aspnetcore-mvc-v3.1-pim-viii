@@ -5,7 +5,7 @@ namespace WebCRUD_PIM_VIII.Models
 {
     public class Pessoa
     {
-        public int Id { get; set; }
+        public int Id { get; set;  }
 
         [Display(Name = "Nome completo")]
         [StringLength(60, MinimumLength = 3, ErrorMessage = "O nome completo precisa ter entre 3 e 60 caracteres.")]
@@ -21,6 +21,19 @@ namespace WebCRUD_PIM_VIII.Models
 
         [Required]
         public Telefone[] Telefones { get; set; }
+
+        public Pessoa()
+        {
+        }
+
+        public Pessoa(int id, string nome, long cPF, Endereco endereco, Telefone[] telefones)
+        {
+            Id = id;
+            Nome = nome;
+            CPF = cPF;
+            Endereco = endereco;
+            Telefones = telefones;
+        }
 
         public override string ToString()
         {

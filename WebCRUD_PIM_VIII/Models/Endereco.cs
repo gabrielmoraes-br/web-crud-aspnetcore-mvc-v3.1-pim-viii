@@ -5,7 +5,7 @@ namespace WebCRUD_PIM_VIII.Models
 {
     public class Endereco
     {
-        public int Id { get; set; }
+        public int Id { get; set;  }
 
         public string Logradouro { get; set; }
 

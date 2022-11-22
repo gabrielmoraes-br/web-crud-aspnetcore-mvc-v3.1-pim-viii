@@ -122,7 +122,7 @@ namespace WebCRUD_PIM_VIII.Data
                 {
                     for (int i = 0; reader.Read(); i++)
                     {
-                        vect[i] = new Telefone { Id = reader.GetInt16(1) };
+                        vect[i] = new Telefone { Id = reader.GetInt16(0) };
 
                         //O contador armazenará os valores válidos, sem considerar espaços nulos no index
                         //(caso cadastre apenas 1 telefone).
